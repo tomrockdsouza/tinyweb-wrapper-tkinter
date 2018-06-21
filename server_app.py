@@ -1,10 +1,14 @@
+from tendo import singleton
+import ctypes
+import sys
+from package.tkinter_app import *
+
 
 #ensures only one instance of this script is running
-from tendo import singleton
 me = singleton.SingleInstance()
 
 
-import ctypes, sys
+
 def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
@@ -14,7 +18,7 @@ def is_admin():
 # If not admin run as admin and close script
 if not is_admin():
     # Re-run the program with admin rights
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
+    ctypes.windll.shell32.ShellExecuteW(None, 'runas', sys.executable, __file__, None, 1)
     exit()
 
 
@@ -22,8 +26,7 @@ if not is_admin():
 myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
-#import the tkinter app
-from package.tkinter_app import *
+#Start tkinter app
 root=Tk()
 PORT=8000
 tkinterapp= TkinterApp(root,PORT)
